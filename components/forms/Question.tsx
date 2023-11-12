@@ -5,6 +5,7 @@ import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Editor } from '@tinymce/tinymce-react';
+import { createQuestion } from "@/lib/actions/Question.action";
 import {
   Form,
   FormControl,
@@ -20,6 +21,7 @@ import { QuestionsSchema } from "@/lib/validations";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 
+
 const type:any = "create"
 const Question = () => {
     const editorRef = useRef(null);
@@ -34,10 +36,11 @@ const Question = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof QuestionsSchema>) {
+  async function onSubmit(values: z.infer<typeof QuestionsSchema>) {
     setIsSubmitting(true)
     try{
-
+         await createQuestion(1)
+         console.log("ccc")
     }catch{
 
     }
@@ -128,6 +131,8 @@ const Question = () => {
                     editorRef.current = editor;
                   }}
                   initialValue=""
+                  onBlur={field.onBlur}
+                  onEditorChange = {(content)=>field.onChange(content)}
                   init={{
                     height: 350,
                     menubar: false,
