@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useRef } from "react";
+import React, { useRef, useState } from "react";
 import * as z from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -20,8 +20,10 @@ import { QuestionsSchema } from "@/lib/validations";
 import Image from "next/image";
 import { Badge } from "../ui/badge";
 
+const type:any = "create"
 const Question = () => {
     const editorRef = useRef(null);
+    const [isSubmitting,setIsSubmitting] = useState(false)
   // Form Definition
   const form = useForm<z.infer<typeof QuestionsSchema>>({
     resolver: zodResolver(QuestionsSchema),
@@ -33,6 +35,15 @@ const Question = () => {
   });
 
   function onSubmit(values: z.infer<typeof QuestionsSchema>) {
+    setIsSubmitting(true)
+    try{
+
+    }catch{
+
+    }
+    finally{
+      setIsSubmitting(false)
+    }
     // Do something with the form values.
     // ✅ This will be type-safe and validated.
     console.log(values);
@@ -202,7 +213,12 @@ const Question = () => {
             </FormItem>
           )}
         />
-        <Button type="submit">Submit</Button>
+        <Button type="submit" disabled={isSubmitting}>
+        {isSubmitting ? (
+            <>{type === "edit" ? "Editing..." : "Posting..."}</>
+          ) : (
+            <>{type === "edit" ? "Edit Question" : "Ask a Question"}</>
+          )}</Button>
       </form>
     </Form>
   );
